@@ -1,13 +1,15 @@
-{ config, pkgs, ... }:
+{ pkgs, pkgs-unstable, ... }:
 let
-  material-gtk-themes = import ./material-gtk-themes.nix { inherit pkgs; };
+  material-gtk-themes = import ./../themes/material-gtk-themes/default.nix { inherit pkgs; };
+  packages = import ./../pkgs/packages.nix { inherit pkgs pkgs-unstable; };
 in
 {
   home.username = "nit";
   home.homeDirectory = "/home/nit";
   home.stateVersion = "24.05";
   nixpkgs.config.allowUnfree = true;
-  #home.packages = with pkgs; [];
+  home.packages = packages.unstable;
+
   gtk = {
     enable = true;
     cursorTheme.package = pkgs.bibata-cursors;

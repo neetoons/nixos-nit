@@ -1,42 +1,33 @@
-{ inputs, config, pkgs,  lib, ... }:
+{ config, pkgs, pkgs-unstable, lib, ... }:
+let
+  packages = import ./../pkgs/packages.nix {inherit pkgs pkgs-unstable;};
+in
 {
-	nixpkgs.config.pulseaudio = true;
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [
-    "qbittorrent-qt5-4.6.4"
-  ];
 	imports = [ 
 	  ./hardware-configuration.nix
-    inputs.home-manager.nixosModules.home-manager
 	];
 
-  # home manager
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    extraSpecialArgs = { inherit inputs;};
-    users = {
-        nit = import ./home.nix;
-    };
-  };
 	# Flakes
-	 nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-	# Bootloader.
+	# Bootloader
 	boot.loader.grub.enable = true;
 	boot.loader.grub.device = "/dev/sda";
 	boot.loader.grub.useOSProber = true;
+
+	# Automatic updating
+	system.autoUpgrade.enable = true;
+	system.autoUpgrade.dates = "weekly";
 
 	# Storage optimization
 	nix.optimise.automatic = true;
 	nix.optimise.dates = [ "02:30" ];
 	nix.settings.auto-optimise-store = true;
-
-	nix.gc = {
-	  automatic = true;
-	  dates = "daily";
-	  options = "--delete-older-than 30d";
-	};
+  nix.gc = {
+      automatic = true;
+      dates = "daily";
+      options = "--delete-older-than 10d";
+    };
 
 	nix.extraOptions = ''
 	  min-free = ${toString (100 * 1024 * 1024)}
@@ -135,7 +126,7 @@
   # Configure keymap in X11
   services.xserver = {
     layout = "us";
-    xkbVariant = "";
+    xkb.variant = "";
   };
 
   # Enable CUPS to print documents.
@@ -189,7 +180,7 @@
   
    fonts.packages = with pkgs; [
     inter
-    noto-fonts
+    nerdfonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
     liberation_ttf
@@ -203,53 +194,21 @@
 
 
 	# paquetes
-	environment.systemPackages = with pkgs; [
-		google-chrome
-		telegram-desktop
-		blender
-		nodejs_22
-		pm2
-		chromium
-		fzf
-		vlc
-		qbittorrent-qt5
-		steam
-		btop
-		htop
-		discord
-		vesktop
-		sublime
-		vscode
-		telegram-desktop
-		spotify
-		neofetch
-		yt-dlp
-		jellyfin-ffmpeg 
-		obs-studio
-		kitty
-		wine
-		zip
-		unzip
-		anki
-		#typescript
-		zapzap
-		obsidian
-		neovim
-		newsflash
-		libsForQt5.kolourpaint
-		#(callPackage ./nix-pawn-compiler/pawncc/default.nix {})
-		#scrcpy
-		#android-studio
-		#gimp
-		#yarn
-		#waydroid
-		#wget
-  	#glibc
-    #openssh
-		#dpp
-		#spicetify-cli
-		# gitkraken
-	];
+	environment.systemPackages = packages.stable; 
+  #with pkgs; [
+		#pm2
+
+	#];
+  #services.samba = {
+  #  enable = true;
+  #  securityType = "user";
+  #  openFirewall = true;
+  #};
+
+  #services.samba-wsdd = {
+  #  enable = true;
+  #  openFirewall = true;
+  #};
 
 	# Some programs need SUID wrappers, can be configured further or are
 	# started in user sessions.
