@@ -7,8 +7,8 @@ in
   home.username = "nit";
   home.homeDirectory = "/home/nit";
   home.stateVersion = "24.05";
-  nixpkgs.config.allowUnfree = true;
   home.packages = packages.unstable;
+  nixpkgs.config.allowUnfree = true;
 
   gtk = {
     enable = true;
