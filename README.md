@@ -1,10 +1,10 @@
 # Nit's NixOS configuration v24.05
 
 ```bash
-git clone https://github.com/neetoons/nix-nit.git
+git clone https://github.com/neetoons/nixos-nit.git
 ```
 
 ```bash
-cd nix-nit
+cd nixos-nit
 nixos-rebuild switch --flake .#nixos
 ```
