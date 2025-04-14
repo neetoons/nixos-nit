@@ -6,15 +6,21 @@
 
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+
+
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
+  outputs = { nixpkgs, nixpkgs-unstable, home-manager, spicetify-nix, ... }@inputs:
   let 
     system = "x86_64-linux";
     pkgs-unstable = import nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
     };
+
+    spicetify = spicetify-nix.lib.mkSpicetify #{config options};
 in
   {
     nixosConfigurations = {

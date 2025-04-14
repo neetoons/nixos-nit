@@ -1,13 +1,24 @@
-{ config, pkgs, pkgs-unstable, lib, ... }:
+{ inputs, config, pkgs, pkgs-unstable, lib, ... }:
 let
   packages = import ./../pkgs/packages.nix {inherit pkgs pkgs-unstable;};
+  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.system};
+
 in
 {
 	imports = [ 
 	  ./hardware-configuration.nix
+    inputs.spicetify-nix.nixosModules.spicetify 
 	];
-
-	# Flakes
+    programs.spicetify = {
+        enable = true;
+        enabledExtensions = with spicePkgs.extensions; [
+            adblockify
+            shuffle # shuffle+ (special characters are sanitized out of extension names)
+        ];
+        theme = spicePkgs.themes.catppuccin;
+        colorScheme = "mocha";
+    };
+	# flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 	# Bootloader
@@ -20,6 +31,7 @@ in
 	system.autoUpgrade.dates = "weekly";
 
 	# Storage optimization
+  nixpkgs.config.allowUnfree = true;
 	nix.optimise.automatic = true;
 	nix.optimise.dates = [ "02:30" ];
 	nix.settings.auto-optimise-store = true;

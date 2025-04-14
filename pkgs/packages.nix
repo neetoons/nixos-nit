@@ -2,17 +2,16 @@
 {
   stable = with pkgs; [
     pm2
+    nodejs_22
+    fluent-reader
   ];
 
   unstable = with pkgs-unstable; [
     lutris
-    nodejs_22
     google-chrome
     wget
-    spicetify-cli
     harmony-music
     ghostty
-    spotify
     btop
     htop
     vscode
@@ -20,7 +19,6 @@
     yt-dlp
     obsidian
     typescript
-    newsflash
     zip
     vesktop
     telegram-desktop
@@ -28,9 +26,9 @@
     vlc
     neofetch
     jellyfin-ffmpeg
-    anki
     libsForQt5.kolourpaint
     tree
+    #anki
     #waydroid
     #yarn
     #dpp
@@ -41,7 +39,8 @@
     #qbittorrent 
     #chromium
     #yarn-berry
-    #steam #zapzap	
+    #steam
+    ##zapzap	
     #discord
     #sublime
     #obs-studio
