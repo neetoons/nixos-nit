@@ -7,16 +7,20 @@ in
 {
 	imports = [ 
 	  ./hardware-configuration.nix
+	  ./wayland.nix
     inputs.spicetify-nix.nixosModules.spicetify 
 	];
+
+
+
     programs.spicetify = {
         enable = true;
         enabledExtensions = with spicePkgs.extensions; [
             adblockify
             shuffle # shuffle+ (special characters are sanitized out of extension names)
         ];
-        theme = spicePkgs.themes.catppuccin;
-        colorScheme = "mocha";
+        theme = spicePkgs.themes.starryNight;
+        #colorScheme = "mocha";
     };
 	# flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -38,13 +42,24 @@ in
   nix.gc = {
       automatic = true;
       dates = "daily";
-      options = "--delete-older-than 10d";
+      options = "--delete-older-than 1d";
     };
 
 	nix.extraOptions = ''
 	  min-free = ${toString (100 * 1024 * 1024)}
 	  max-free = ${toString (1024 * 1024 * 1024)}
 	'';
+
+    #stylix
+    stylix.enable = true;
+    stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml"; 
+      stylix.image = /home/nit/wallpaper.png;
+  stylix.polarity = "dark";
+
+
+
+
+
 
   # smart
   services.smartd = {
@@ -99,6 +114,8 @@ in
   	  	size = 10 * 1024; # 10GB
   	}];
 
+
+ 
 	#services.gnome3 = {
 	#  enable = true;
 	#  extraPackages = with pkgs; [
@@ -110,10 +127,19 @@ in
 	#    };
 	#  };
 	#};
-	#services.mysql = {
-	#	enable = true;
-	#	package = pkgs.mariadb;
-	#};
+	services.mysql = {
+		enable = true;
+		package = pkgs.mariadb;
+	};
+  
+  # Mongodb
+  #services.mongodb = {
+  #  enable = true;
+  #  package = "mongodb-5_0";
+  #  enableAuth = true;
+  #  initialRootPassword = "YourSecurePassword";
+  #  bind_ip = "10.5.0.2";
+  #};
 	
 	programs.adb.enable = true;
 	services.ollama = {
@@ -124,11 +150,19 @@ in
 
 	#virtualisation.waydroid.enable = true;
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
 
 	# Enable the GNOME Desktop Environment.
-	services.xserver.displayManager.gdm.enable = true;
-	services.xserver.desktopManager.gnome.enable = true;
+	#services.xserver.displayManager.gdm.enable = true;
+	
+ services.xserver = {
+  enable = true;
+  desktopManager.gnome.enable = true;
+  displayManager.defaultSession = "hyprland";
+  displayManager.gdm = {
+      enable = true;
+      wayland = true;
+    };
+};
 
 	#autologin
 	services.xserver.displayManager.startx.enable = true;
@@ -136,33 +170,35 @@ in
 	services.xserver.displayManager.autoLogin.user = "nit";
 
   # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkb.variant = "";
-  };
+  #services.xserver = {
+  #  layout = "us";
+  #  xkb.variant = "";
+  #};
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  hardware.pulseaudio.package = pkgs.pulseaudioFull;
-  hardware.opengl.driSupport32Bit = true;
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit = true;
+  #hardware.pulseaudio.package = pkgs.pulseaudioFull;
+  hardware.pulseaudio.enable = false;
+  #hardware.pulseaudio.support32Bit = true;
+    hardware.opengl.driSupport32Bit = true;
+
   security.rtkit.enable = true;
   # Enable sound with pipewire.
-  services.pipewire.enable =  lib.mkForce false;
-#  services.pipewire = {
-#    enable = true;
-#    alsa.enable = true;
-#    alsa.support32Bit = true;
-#    pulse.enable = false;
-#    # If you want to use JACK applications, uncomment this
-#    #jack.enable = true;
-#
-#    # use the example session manager (no others are packaged yet so this is enabled by default,
-#    # no need to redefine it in your config for now)
-#    #media-session.enable = true;
-#  };
+  sound.enable = true;
+  #services.pipewire.enable =  lib.mkForce false;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = false;
+    # If you want to use JACK applications, uncomment this
+    jack.enable = true;
+
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -206,11 +242,10 @@ in
 
 
 	# paquetes
-	environment.systemPackages = packages.stable; 
-  #with pkgs; [
-		#pm2
-
-	#];
+	environment.systemPackages = packages.stable ++ [
+    inputs.swww.packages.${pkgs.system}.swww
+  ]; 
+  
   #services.samba = {
   #  enable = true;
   #  securityType = "user";
@@ -260,7 +295,7 @@ in
 
 	# Open ports in the firewall.
 	networking.firewall.enable = true;
-	networking.firewall.allowedTCPPorts = [ 7777 ];
+	networking.firewall.allowedTCPPorts = [ 7777 8081 ];
 	#networking.firewall.allowedUDPPorts = [ ... ];
 	# Or disable the firewall altogether.
 	#networking.firewall.enable = true;

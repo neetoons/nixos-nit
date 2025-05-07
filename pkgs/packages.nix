@@ -4,14 +4,20 @@
     pm2
     nodejs_22
     fluent-reader
+    ncdu
+    bun
+    wine
+    ranger
   ];
 
   unstable = with pkgs-unstable; [
-    lutris
+    postman
+    libsForQt5.kdenlive
+    vesktop
+    sherlock
+    brave
     google-chrome
     wget
-    harmony-music
-    ghostty
     btop
     htop
     vscode
@@ -20,34 +26,30 @@
     obsidian
     typescript
     zip
-    vesktop
-    telegram-desktop
     fzf
     vlc
     neofetch
     jellyfin-ffmpeg
     libsForQt5.kolourpaint
     tree
-    #anki
-    #waydroid
-    #yarn
-    #dpp
-    #gitkraken
-    #android-studio
-    #gimp
-    #blender
+    anki
+    discord
+    scrcpy
+    zapzap
+    telegram-desktop
+    obs-studio
     #qbittorrent 
-    #chromium
-    #yarn-berry
     #steam
-    ##zapzap	
-    #discord
+    #gimp
+    #android-studio
+    #harmony-music
+    #lutris
+    #waydroid
+    #android-studio
+    #blender
     #sublime
-    #obs-studio
-    #scrcpy
-    #(callPackage ./nix-pawn-compiler/pawncc/default.nix {})
+    (callPackage ./discord-desktop-mobile/default.nix {}) 
     (callPackage ./sorter/default.nix {}) 
-  ];  
+  ];
 }
-
 
