@@ -1,58 +1,50 @@
 {
   description = "Nit's NixOS configuration";
   inputs = {
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs.url = "github:NixOS/nixpkgs/release-24.05";
-    home-manager.url = "github:nix-community/home-manager/release-24.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+
+    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    zen-browser.url = "github:0xc000022070/zen-browser-flake";
+    notion-desktop.url =  "github:heytcass/notion-mac-flake";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
-    stylix.url = "github:danth/stylix/release-24.05";
-    hyprnix.url = "github:hyprland-community/hyprnix";
-    swww.url = "github:LGFae/swww";
+    
+    hyprland.url = "github:hyprwm/Hyprland";
+    stylix.url =  "github:nix-community/stylix/release-25.05";
+    stylix.inputs.nixpkgs.follows = "nixpkgs";
+    pomodoro.url = "github:Esteban528/pomodoro";
+    #affinity-nix.url = "github:mrshmllow/affinity-nix";
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, home-manager, spicetify-nix, ... }@inputs:
-  let 
-    system = "x86_64-linux";
-    pkgs-unstable = import nixpkgs-unstable {
-      inherit system;
-      config.allowUnfree = true;
-    };
-
-    spicetify = spicetify-nix.lib.mkSpicetify; #{config options};
-in
+  outputs = {nixpkgs, home-manager, spicetify-nix, stylix, ... }@inputs:
+  let
+    spicetify = spicetify-nix.lib.mkSpicetify;
+  in
   {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs pkgs-unstable; };
+        specialArgs = { inherit inputs; };
         modules = [
           home-manager.nixosModules.home-manager
-          inputs.stylix.nixosModules.stylix
-          ./host/configuration.nix
+          ./hosts/desktop/configuration.nix
           {
+            home-manager.useUserPackages = true;
             home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
               users.nit = {
                   imports = [
-                  ./home-manager/home.nix
+                    spicetify-nix.homeManagerModules.default
+                    stylix.homeModules.stylix
+                    ./home/nit/home.nix
                   ];
                 };
               extraSpecialArgs = {
                   inherit  inputs;
-                  inherit  pkgs-unstable;
               };
             };
           }
         ];
       };
     };
-    imports = [ inputs.hyprnix.homeManagerModules.default ];
-    wayland.windowManager.hyprland = {
-        enable = true;
-        reloadConfig = true;
-        systemdIntegration = true;
-    };
-
   };
 }

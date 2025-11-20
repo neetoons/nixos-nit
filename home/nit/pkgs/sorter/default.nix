@@ -10,7 +10,6 @@
   pkgs.stdenv.mkDerivation {
     name = "sorter";
     src = pkgs.fetchFromGitHub {
-      # https://github.com/Decad/github-downloader
       owner = "neetoons";
       repo = "sorter.sh";
       rev = "master";
