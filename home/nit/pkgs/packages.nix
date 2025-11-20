@@ -189,7 +189,7 @@
     rofimoji
     pika-backup # Herramienta de copia de seguridad simple basada en BorgBackup
     gitkraken # Cliente GUI de Git con características profesionales
-    #(callPackage ./discord-desktop-mobile/default.nix {})
+    (callPackage ./discord-desktop-mobile/default.nix {})
     #(callPackage ./notion/default.nix {})
     (callPackage ./sorter/default.nix {})
     steam-run
