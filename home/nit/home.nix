@@ -1,16 +1,7 @@
-{ inputs, pkgs, ... }:
-let
-  #material-gtk-themes = import ./themes/material-gtk-themes/default.nix { inherit pkgs; };
-  packages = import ./pkgs/packages.nix { inherit pkgs ; };
-in
+{ inputs, pkgs-unstable, pkgs, ... }:
 {
-    #TODO: 
-    #-  kitty 
-    #-  nvim
-    #-  zed
-    #-  zen-browser 
-    #-  ewww 
     imports = [
+        ./pkgs/packages.nix
         ./spicetify/default.nix
         ./hypr/hypridle/default.nix
         ./hypr/hyprland/default.nix
@@ -21,15 +12,7 @@ in
     home.username = "nit";
     home.homeDirectory = "/home/nit";
     home.stateVersion = "25.05";
-    home.packages = packages.stable ++ [
-        inputs.notion-desktop.packages.${pkgs.system}.default
-        inputs.zen-browser.packages."${pkgs.system}".default
-        inputs.pomodoro.packages.${pkgs.system}.default
-        #inputs.affinity-nix.packages.x86_64-linux.v3
-    ];
     
-    nixpkgs.config.allowUnfree = true;
-
     gtk = {
         enable = true;
         cursorTheme.package = pkgs.bibata-cursors;
@@ -49,12 +32,7 @@ in
         polarity = "dark";
     };
 
-
     #home-manager.users.username.services.kdeconnect.enable = true;
-    #
-    #networking.firewall = rec {
-    #  allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
-    #  allowedUDPPortRanges = allowedTCPPortRanges;
-    #};
+
     programs.home-manager.enable = true;
 }
