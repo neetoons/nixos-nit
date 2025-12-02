@@ -6,7 +6,6 @@
         ./hypr/hypridle/default.nix
         ./hypr/hyprland/default.nix
         ./hypr/hyprlock/default.nix
-        ./mimeapps.nix
         ./vscodium/default.nix
     ];
     home.username = "nit";

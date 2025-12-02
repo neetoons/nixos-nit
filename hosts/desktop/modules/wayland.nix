@@ -37,7 +37,6 @@ environment.systemPackages = with pkgs; [
     kitty # Emulador de terminal rápido y rico en funciones
     cliphist # Herramienta de historial de portapapeles para Wayland
     wl-clipboard # Herramientas de línea de comandos para manipular el portapapeles de Wayland
-    wl-clipboard-x11 # Utilidad de transición para usar wl-clipboard en entornos X11 (compatibilidad)
 
 # --- Captura de Pantalla y Manipulación de Imágenes (Wayland) ---
     grim # Utilidad para tomar capturas de pantalla en Wayland

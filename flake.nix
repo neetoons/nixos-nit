@@ -10,12 +10,11 @@
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     notion-desktop.url =  "github:heytcass/notion-mac-flake";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
-    
+
     hyprland.url = "github:hyprwm/Hyprland";
     stylix.url =  "github:nix-community/stylix/release-25.05";
     stylix.inputs.nixpkgs.follows = "nixpkgs";
     pomodoro.url = "github:Esteban528/pomodoro";
-    #affinity-nix.url = "github:mrshmllow/affinity-nix";
   };
 
   outputs = {nixpkgs, nixpkgs-unstable, home-manager, spicetify-nix, stylix, ... }@inputs:

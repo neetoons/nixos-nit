@@ -12,4 +12,6 @@ in
 
     xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf; 
     xdg.configFile."hypr/start.sh".source = ./start.sh; 
+
+    home.packages = [pkgs.nwg-dock-hyprland];
 }

@@ -10,5 +10,7 @@ ${EWW} daemon &
 ${EWW} open-many bar &
 nm-applet --indicator &
 dunst &
+zen-beta &
 hypridle &
+pulseeffects &
 rclone mount nit: /home/nit/GoogleDrive &

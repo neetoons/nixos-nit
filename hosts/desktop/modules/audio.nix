@@ -1,7 +1,10 @@
 {pkgs, ...}:
 {
 
-    environment.systemPackages = [ pkgs.alsa-utils];
+    environment.systemPackages = with pkgs; [
+        alsa-utils
+        pulseeffects-legacy
+    ];
 
     services.pipewire = {
         enable = true;
