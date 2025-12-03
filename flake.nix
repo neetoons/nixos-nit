@@ -1,10 +1,10 @@
 {
   description = "Nit's NixOS configuration";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
@@ -12,7 +12,7 @@
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
 
     hyprland.url = "github:hyprwm/Hyprland";
-    stylix.url =  "github:nix-community/stylix/release-25.05";
+    stylix.url =  "github:nix-community/stylix/release-25.11";
     stylix.inputs.nixpkgs.follows = "nixpkgs";
     pomodoro.url = "github:Esteban528/pomodoro";
   };

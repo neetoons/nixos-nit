@@ -1,5 +1,6 @@
 { pkgs, ...}:
 {
+    environment.systemPackages = [pkgs.nodejs_latest];
     systemd.services.vscbot = {
         enable = true;
         description = "vscbot - discord bot";
@@ -12,7 +13,7 @@
             Group = "users";
             WorkingDirectory = "/home/nit/discord_bots/vscbot/";
             ExecStart = ''
-                ${pkgs.nodejs_24}/bin/node .
+                ${pkgs.nodejs_latest}/bin/node .
             '';
             EnvironmentFile = "/home/nit/discord_bots/vscbot/.env";
             Restart = "on-failure";

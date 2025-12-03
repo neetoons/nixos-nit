@@ -8,7 +8,7 @@
         nerd-fonts.jetbrains-mono
         inter
         noto-fonts-cjk-sans
-        noto-fonts-emoji
+        noto-fonts-color-emoji
         liberation_ttf
         fira-code-symbols
         mplus-outline-fonts.githubRelease

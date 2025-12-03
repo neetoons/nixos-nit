@@ -1,5 +1,6 @@
 { pkgs, ... }:
 {
+    environment.systemPackages = [pkgs.nodejs_latest];
     systemd.services.neetoons-bot = {
         enable = true;
         description = "Mi Discord Bot en Node.js";
@@ -13,7 +14,7 @@
             Group = "users";
             WorkingDirectory = "/home/nit/discord_bots/neetoons-bot/";
             ExecStart = ''
-                ${pkgs.nodejs_24}/bin/node . 
+                ${pkgs.nodejs_latest}/bin/node .
             '';
 
             EnvironmentFile = "/home/nit/discord_bots/neetoons-bot/.env";

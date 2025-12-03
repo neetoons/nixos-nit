@@ -1,7 +1,7 @@
 {inputs, pkgs, config,  lib, ... }:
-let 
+let
   system = "x86_64-linux";
-  hyprlandPkgs =  inputs.hyprland.packages.${pkgs.system};
+  hyprlandPkgs =  inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
     programs.hyprland = {
@@ -21,7 +21,7 @@ in
 
     xdg.portal = {
         enable = true;
-        extraPortals = [  pkgs.xdg-desktop-portal-gtk ]; 
+        extraPortals = [  pkgs.xdg-desktop-portal-gtk ];
     };
 
 environment.systemPackages = with pkgs; [
@@ -29,7 +29,7 @@ environment.systemPackages = with pkgs; [
     xdg-desktop-portal # Implementa las API de Freedesktop para aplicaciones aisladas (necesario en Wayland)
     swaybg # Utilidad para establecer el fondo de pantalla en Wayland
     eww # Extensible Widget Wrapper, framework para crear barras, menús y widgets personalizados
-    rofi-wayland # Lanzador de aplicaciones, selector de ventanas y menús dinámicos compatible con Wayland
+    rofi # Lanzador de aplicaciones, selector de ventanas y menús dinámicos compatible con Wayland
     dunst # Daemon de notificaciones ligero y minimalista
     libnotify # Biblioteca para enviar notificaciones de escritorio
 

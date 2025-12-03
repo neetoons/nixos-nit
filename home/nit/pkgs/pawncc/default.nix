@@ -10,11 +10,12 @@ pkgs.multiStdenv.mkDerivation rec {
     rev = "v${version}";
     hash = "sha256-voHp+e7aMh6tPJtKZIazgbvPrpJbgPVXraf3t/BP8DE=";
   };
-  
+
   cmakeFlags = [
     "-DCMAKE_BUILD_TYPE=Release"
     "-DCMAKE_C_FLAGS=-m32"
-    "-DCMAKE_SOURCE_DIR=source/compiler" 
+    "-DCMAKE_SOURCE_DIR=source/compiler"
+    "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
   ];
 
   nativeBuildInputs = with pkgs; [
@@ -24,7 +25,7 @@ pkgs.multiStdenv.mkDerivation rec {
 
   configurePhase = ''
     cd source/compiler
-    cmake ${pkgs.lib.concatStringsSep " " cmakeFlags} 
+    cmake ${pkgs.lib.concatStringsSep " " cmakeFlags}
   '';
 
   installPhase = "make";
